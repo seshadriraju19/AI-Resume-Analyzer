@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 
-
 @Service
 public class ResumeService {
 
@@ -51,6 +50,18 @@ public Resume updateResume(Long id, Resume resume) {
     }
 
     resume.setId(id);
+    return resumeRepository.save(resume);
+}
+public Resume saveExtractedText(Long id, String extractedText) {
+
+    Resume resume = resumeRepository.findById(id)
+            .orElseThrow(() -> new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "Resume not found with id: " + id
+            ));
+
+    resume.setResumeText(extractedText);
+
     return resumeRepository.save(resume);
 }
 }
