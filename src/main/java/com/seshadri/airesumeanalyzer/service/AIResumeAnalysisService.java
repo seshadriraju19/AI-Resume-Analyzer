@@ -13,20 +13,39 @@ public class AIResumeAnalysisService {
     }
     public String analyzeResume(String resumeText) {
 
-    String prompt = """
-            Analyze the following resume and provide a professional review.
+   String prompt = """
+        Analyze the following resume professionally.
 
-            Give the response in these sections:
-            1. Overall Score
-            2. Strengths
-            3. Weaknesses
-            4. Missing Skills
-            5. Suggestions for Improvement
-            6. Suitable Job Roles
+        Return the response EXACTLY in the following format:
 
-            Resume:
-            %s
-            """.formatted(resumeText);
+        OVERALL_SCORE:
+        Give a score from 0 to 10.
+
+        STRENGTHS:
+        - List the candidate's strongest skills or qualities.
+
+        WEAKNESSES:
+        - List the major weaknesses or missing areas.
+
+        MISSING_SKILLS:
+        - List important technical skills that are missing.
+
+        SUGGESTIONS:
+        - Give practical suggestions to improve the resume.
+
+        JOB_ROLES:
+        - List suitable job roles for this candidate.
+
+        IMPORTANT:
+        - Follow the section names exactly.
+        - Do not add extra sections.
+        - Keep each section concise.
+        - Do not use Markdown headings.
+        - Do not add introductory or concluding text.
+
+        RESUME:
+        %s
+        """.formatted(resumeText);
 
     return chatClient.prompt()
             .user(prompt)
