@@ -17,7 +17,9 @@ public class PdfTextExtractorService {
 
             PDFTextStripper pdfTextStripper = new PDFTextStripper();
 
-            return pdfTextStripper.getText(document);
+            String text = pdfTextStripper.getText(document);
+            
+            return text;
         }
     }
 }

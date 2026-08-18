@@ -17,6 +17,7 @@ import jakarta.validation.Valid;
 import org.springframework.web.multipart.MultipartFile;
 import com.seshadri.airesumeanalyzer.service.AIResumeAnalysisService;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import java.util.Map;
 
 @CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping("/api/resumes")
@@ -64,11 +65,18 @@ public Resume extractText(
 
     return resumeService.saveExtractedText(id, extractedText);
 }
-@GetMapping("/{id}/analyze")
-public String analyzeResume(@PathVariable Long id) {
+@PostMapping("/{id}/analyze")
+public String analyzeResume(
+        @PathVariable Long id,
+        @RequestBody Map<String, String> request) {
 
     Resume resume = resumeService.getResumeById(id);
 
-    return aiResumeAnalysisService.analyzeResume(resume.getResumeText());
+    String jobDescription = request.get("jobDescription");
+
+    return aiResumeAnalysisService.analyzeResume(
+            resume.getResumeText(),
+            jobDescription
+    );
 }
 }
