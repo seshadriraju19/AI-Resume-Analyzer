@@ -1,2 +1,5 @@
 target/
 startup.log
+.env
+.env.*
+application-local.properties

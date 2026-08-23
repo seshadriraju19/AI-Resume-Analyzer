@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import ReactMarkdown from 'react-markdown'
 import './App.css'
 
 function App() {
@@ -159,63 +158,101 @@ return (
           <button onClick={handleAnalyze} disabled={loading}>{loading ? 'Analyzing Resume...' : 'Analyze Resume'}
           </button>
           {analysis && (
-            <div className="analysis-result">
-              <h2>AI Resume Analysis</h2>
-              <div className="score">
-                <h3>Overall Score</h3>
-                <div className="score-value">
-                  {analysis.overallScore} <span>/ 10</span>
-                  </div>
-                  </div>
-                 <div className="strengths">
-                  <h3>Strengths</h3>
-                  <ul>
-                    {analysis.strengths.map((strength, index) => (
-                      <li key={index}>{strength}</li>
-                      ))}
-                    </ul>
-                    </div>
-                    <div className="weaknesses">
-                      <h3>Weaknesses</h3>
-                      <ul>
-                        {analysis.weaknesses.map((weakness, index) => (
-                          <li key={index}>{weakness}</li>
-                          ))}
-                          </ul>
-                          </div>
-                         
-                          <div className="missing-skills">
-                            <h3>Missing Skills</h3>
-                            <ul>
-                              {analysis.missingSkills.map((skill, index) => (
-                                <li key={index}>{skill}</li>
-                                ))}
-                                </ul>
-                                <div className="suggestions">
-                                  <h3>Suggestions</h3>
-                                  <ul>
-                                    {analysis.suggestions.map((suggestion, index)=>(
-                                      <li key={index}>{suggestion}</li>
-                                      ))}
-                                      </ul>
-                                      </div>
-                                      <div className="job-roles">
-                                        <h3>Suitable Job Roles</h3>
-                                        <ul>
-                                          {analysis.jobRoles.map((role, index) => (
-                                            <li key={index}>{role}</li>
-                                            ))}
-                                            </ul>
-                                            </div>
+  <div className="analysis-result">
 
-                                      </div>
-                                      </div>
-          )}
-          </div>
+    <h2>AI Resume Analysis</h2>
+
+    {/* ATS SCORE */}
+    <div className="score-card">
+      <h3>ATS Match Score</h3>
+
+      <div className="score-value">
+        {analysis.overallScore}
+        <span>/10</span>
+      </div>
+
+      <p>
+        {analysis.overallScore >= 8
+          ? "Excellent Match"
+          : analysis.overallScore >= 6
+          ? "Good Match"
+          : analysis.overallScore >= 4
+          ? "Moderate Match"
+          : "Needs Improvement"}
+      </p>
+    </div>
+
+    {/* STRENGTHS */}
+    <div className="analysis-card strengths">
+      <h3>✓ Strengths</h3>
+
+      <ul>
+        {analysis.strengths.map((strength, index) => (
+          <li key={index}>{strength}</li>
+        ))}
+      </ul>
+    </div>
+
+    {/* WEAKNESSES */}
+    <div className="analysis-card weaknesses">
+      <h3>⚠ Areas to Improve</h3>
+
+      <ul>
+        {analysis.weaknesses.map((weakness, index) => (
+          <li key={index}>{weakness}</li>
+        ))}
+      </ul>
+    </div>
+
+    {/* MISSING SKILLS */}
+    <div className="analysis-card missing-skills">
+      <h3>Missing Skills</h3>
+
+      {analysis.missingSkills.length > 0 ? (
+        <div className="skill-tags">
+          {analysis.missingSkills.map((skill, index) => (
+            <span key={index} className="skill-tag">
+              {skill}
+            </span>
+          ))}
+        </div>
+      ) : (
+        <p>No major missing skills identified.</p>
+      )}
+    </div>
+
+    {/* SUGGESTIONS */}
+    <div className="analysis-card suggestions">
+      <h3>AI Recommendations</h3>
+
+      <ol>
+        {analysis.suggestions.map((suggestion, index) => (
+          <li key={index}>{suggestion}</li>
+        ))}
+      </ol>
+    </div>
+
+    {/* JOB ROLES */}
+    <div className="analysis-card job-roles">
+      <h3>Suitable Job Roles</h3>
+
+      <div className="role-tags">
+    {analysis.jobRoles.map((role, index) => (
+        <span key={index} className="role-tag">
+            {role}
+        </span>
+    ))}
+</div>
+
+        </div>
+    </div>
+  )}
+  </div>
       </main>
     </div>
 )
 
 }
+
 
 export default App

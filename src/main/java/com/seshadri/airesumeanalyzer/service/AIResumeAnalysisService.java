@@ -46,6 +46,23 @@ public class AIResumeAnalysisService {
     - Do not add any fields other than the six specified fields.
     - Do not wrap the JSON in Markdown code fences.
 
+    ATS SCORING:
+
+Calculate overallScore using the following approximate weighting:
+
+Required technical skills: 40%%
+Preferred skills and technology: 20%%
+Relevant projects and practical experience: 20%%
+Education and certifications: 10%%
+Overall relevance to the job description: 10%%
+
+First evaluate each category based only on evidence from the resume.
+Then combine the results into a final score from 0 to 10.
+
+Do not inflate the score because of a large number of unrelated
+keywords or technologies.
+A missing critical required skill should significantly reduce the score.
+
     IMPORTANT ANALYSIS RULES:
 
     1. Analyze ONLY information that is actually present in the resume.
@@ -55,6 +72,37 @@ public class AIResumeAnalysisService {
     2. Treat internships, training programs, apprenticeships, and relevant
        practical experience as experience when they are explicitly mentioned
        in the resume.
+
+       IMPORTANT EXPERIENCE VALIDATION RULE:
+
+Before writing any weakness related to professional experience, carefully inspect
+the ENTIRE resume.
+
+- Do NOT claim "no professional experience", "no internship experience",
+  "no industry experience", or similar statements unless the resume genuinely
+  contains no internship, apprenticeship, trainee role, freelance work,
+  contract work, or employment experience.
+
+- If an internship, apprenticeship, trainee role, freelance work, contract work,
+  or employment is explicitly listed anywhere in the resume, treat it as
+  professional experience.
+
+- Do NOT ignore experience simply because it is short-term, recent, remote,
+  unpaid, or an internship.
+
+- Do NOT treat a certification as employment unless the resume explicitly
+  describes it as an internship or work experience.
+
+- Do NOT treat a training program such as QSpiders Java Full Stack Development
+  as employment unless the resume explicitly describes it as an internship or
+  work role.
+
+- If there is no professional experience in the resume, you may mention the
+  absence of professional experience as a weakness.
+
+- If the resume contains professional experience, evaluate the quality and
+  relevance of that experience instead of saying that the candidate has no
+  professional experience.
 
     3. EXPERIENCE AND INTERNSHIPS:
        - Carefully inspect the entire resume for internships, apprenticeships,

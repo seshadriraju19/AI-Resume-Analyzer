@@ -162,12 +162,48 @@
     border-left: 5px solid #f59e0b;
 }
 
+.missing-skills ul {
+    padding-left: 25px;
+}
+
+.missing-skills li {
+    margin-bottom: 10px;
+}
+
 .suggestions {
     border-left: 5px solid #3b82f6;
 }
 
 .job-roles {
     border-left: 5px solid #8b5cf6;
+}
+
+.job-roles ul {
+    display: block;
+    padding-left: 25px;
+    margin: 0;
+}
+
+.job-roles li {
+    display: list-item;
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.skill-tag {
+    display: inline-block;
+    padding: 8px 14px;
+    border-radius: 20px;
+    background-color: #eef2ff;
+    border: 1px solid #c7d2fe;
+    font-size: 15px;
 }
 @media (max-width: 768px) {
     .navbar {
@@ -199,4 +235,17 @@
         width: 90%;
         padding: 20px;
     }
+}
+
+/* Fix Suitable Job Roles layout */
+.job-roles ul {
+    display: block !important;
+    padding-left: 25px;
+    margin: 0;
+}
+
+.job-roles li {
+    display: list-item !important;
+    margin-bottom: 10px;
+    line-height: 1.5;
 }

@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.seshadri.airesumeanalyzer.service.AIResumeAnalysisService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import java.util.Map;
+import com.seshadri.airesumeanalyzer.service.ResumeAnalysisService;
 
 @CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping("/api/resumes")
@@ -27,6 +28,7 @@ public class ResumeController {
     private final ResumeService resumeService;
     private final PdfTextExtractorService pdfTextExtractorService;
     private final AIResumeAnalysisService aiResumeAnalysisService;
+    private final ResumeAnalysisService resumeAnalysisService;
     @PostMapping
 public Resume createResume(@Valid @RequestBody Resume resume) {
     return resumeService.saveResume(resume);
@@ -48,10 +50,12 @@ public void deleteResume(@PathVariable Long id) {
     resumeService.deleteResume(id);
 }
 
-   public ResumeController(ResumeService resumeService,
+   public ResumeController(
+        ResumeService resumeService,
         PdfTextExtractorService pdfTextExtractorService,
-        AIResumeAnalysisService aiResumeAnalysisService) {
-
+        AIResumeAnalysisService aiResumeAnalysisService,
+        ResumeAnalysisService resumeAnalysisService) {
+    this.resumeAnalysisService = resumeAnalysisService;
     this.resumeService = resumeService;
     this.pdfTextExtractorService = pdfTextExtractorService;
     this.aiResumeAnalysisService = aiResumeAnalysisService;
@@ -68,15 +72,19 @@ public Resume extractText(
 @PostMapping("/{id}/analyze")
 public String analyzeResume(
         @PathVariable Long id,
-        @RequestBody Map<String, String> request) {
+        @RequestBody Map<String, String> request) throws Exception {
 
     Resume resume = resumeService.getResumeById(id);
 
     String jobDescription = request.get("jobDescription");
 
-    return aiResumeAnalysisService.analyzeResume(
+    String aiResponse = aiResumeAnalysisService.analyzeResume(
             resume.getResumeText(),
             jobDescription
     );
+
+    resumeAnalysisService.createAndSaveAnalysis(id, aiResponse);
+
+    return aiResponse;
 }
 }
