@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.GetMapping;
 import com.seshadri.airesumeanalyzer.entity.Resume;
+import com.seshadri.airesumeanalyzer.entity.ResumeAnalysis;
 import com.seshadri.airesumeanalyzer.service.PdfTextExtractorService;
 import com.seshadri.airesumeanalyzer.service.ResumeService;
 import org.springframework.web.bind.annotation.RestController;
@@ -86,5 +87,13 @@ public String analyzeResume(
     resumeAnalysisService.createAndSaveAnalysis(id, aiResponse);
 
     return aiResponse;
+}
+@GetMapping("/analysis/history")
+public List<ResumeAnalysis> getAnalysisHistory() {
+    return resumeAnalysisService.getAllAnalyses();
+}
+@DeleteMapping("/analysis/{id}")
+public void deleteAnalysis(@PathVariable Long id) {
+    resumeAnalysisService.deleteAnalysis(id);
 }
 }

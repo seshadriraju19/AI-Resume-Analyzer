@@ -1,0 +1,217 @@
+/* ================================
+   ANALYSIS RESULT
+================================ */
+
+.analysis-result {
+    margin-top: 30px;
+    padding: 30px;
+    background: #f8fafc;
+    border-radius: 12px;
+    text-align: left;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.analysis-result h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+
+/* ================================
+   SCORE CARD
+================================ */
+
+.score-card {
+    background: white;
+    padding: 30px;
+    border-radius: 14px;
+    margin-bottom: 20px;
+    text-align: center;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 5px 15px rgba(15, 23, 42, 0.05);
+}
+
+.score-card h3 {
+    margin: 0 0 15px;
+    color: #475569;
+}
+
+
+/* ================================
+   SCORE CIRCLE
+================================ */
+
+.score-circle {
+    width: 190px;
+    height: 190px;
+    border-radius: 50%;
+    margin: 20px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.score-inner {
+    width: 150px;
+    height: 150px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.score-value {
+    font-size: 52px;
+    font-weight: 700;
+    color: #2563eb;
+}
+
+.score-value span {
+    display: block;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.score-card p {
+    font-size: 20px;
+    color: #64748b;
+}
+
+
+/* ================================
+   ANALYSIS CARDS
+================================ */
+
+.analysis-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.analysis-card h3 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.analysis-card li {
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+
+/* ================================
+   STRENGTHS
+================================ */
+
+.strengths {
+    border-left: 5px solid #22c55e;
+}
+
+
+/* ================================
+   WEAKNESSES
+================================ */
+
+.weaknesses {
+    border-left: 5px solid #ef4444;
+}
+
+
+/* ================================
+   MISSING SKILLS
+================================ */
+
+.missing-skills {
+    border-left: 5px solid #f59e0b;
+}
+
+.missing-skills ul {
+    padding-left: 25px;
+}
+
+.missing-skills li {
+    margin-bottom: 10px;
+}
+
+
+/* ================================
+   SUGGESTIONS
+================================ */
+
+.suggestions {
+    border-left: 5px solid #3b82f6;
+}
+
+
+/* ================================
+   JOB ROLES
+================================ */
+
+.job-roles {
+    border-left: 5px solid #8b5cf6;
+}
+
+
+/* ================================
+   SKILL & ROLE TAGS
+================================ */
+
+.skill-tags,
+.role-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.skill-tag,
+.role-tag {
+    display: inline-block;
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.skill-tag {
+    background: #fff7ed;
+    border: 1px solid #fed7aa;
+    color: #c2410c;
+}
+
+.role-tag {
+    background: #f5f3ff;
+    border: 1px solid #ddd6fe;
+    color: #6d28d9;
+}
+
+
+/* ================================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 768px) {
+
+    .analysis-result {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .score-circle {
+        width: 160px;
+        height: 160px;
+    }
+
+    .score-inner {
+        width: 125px;
+        height: 125px;
+    }
+
+    .score-value {
+        font-size: 42px;
+    }
+}

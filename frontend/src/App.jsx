@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import './App.css'
+import AnalysisResult from './components/AnalysisResult'
+import AnalysisHistory from "./components/AnalysisHistory";
 
 function App() {
   const [file, setFile] = useState(null)
@@ -7,6 +9,8 @@ function App() {
   const [analysis, setAnalysis] = useState(null)
   const [loading, setLoading] = useState(false)
   const [jobDescription, setJobDescription] = useState('')
+  const [historyRefresh, setHistoryRefresh] = useState(0)
+
   const handleAnalyze = async () => {
     if (!file) {
     setError('Please select a PDF file first.')
@@ -86,6 +90,7 @@ console.log('AI Analysis:', analysisText)
 const analysisData = JSON.parse(analysisText)
 console.log("PARSED ANALYSIS:", analysisData)
 setAnalysis(analysisData)
+setHistoryRefresh(prev => prev + 1)
 
 } catch (error) {
     console.error(error)
@@ -157,102 +162,12 @@ return (
 
           <button onClick={handleAnalyze} disabled={loading}>{loading ? 'Analyzing Resume...' : 'Analyze Resume'}
           </button>
-          {analysis && (
-  <div className="analysis-result">
+          <AnalysisResult analysis={analysis} />
 
-    <h2>AI Resume Analysis</h2>
-
-    {/* ATS SCORE */}
-    <div className="score-card">
-      <h3>ATS Match Score</h3>
-
-      <div className="score-value">
-        {analysis.overallScore}
-        <span>/10</span>
-      </div>
-
-      <p>
-        {analysis.overallScore >= 8
-          ? "Excellent Match"
-          : analysis.overallScore >= 6
-          ? "Good Match"
-          : analysis.overallScore >= 4
-          ? "Moderate Match"
-          : "Needs Improvement"}
-      </p>
-    </div>
-
-    {/* STRENGTHS */}
-    <div className="analysis-card strengths">
-      <h3>✓ Strengths</h3>
-
-      <ul>
-        {analysis.strengths.map((strength, index) => (
-          <li key={index}>{strength}</li>
-        ))}
-      </ul>
-    </div>
-
-    {/* WEAKNESSES */}
-    <div className="analysis-card weaknesses">
-      <h3>⚠ Areas to Improve</h3>
-
-      <ul>
-        {analysis.weaknesses.map((weakness, index) => (
-          <li key={index}>{weakness}</li>
-        ))}
-      </ul>
-    </div>
-
-    {/* MISSING SKILLS */}
-    <div className="analysis-card missing-skills">
-      <h3>Missing Skills</h3>
-
-      {analysis.missingSkills.length > 0 ? (
-        <div className="skill-tags">
-          {analysis.missingSkills.map((skill, index) => (
-            <span key={index} className="skill-tag">
-              {skill}
-            </span>
-          ))}
-        </div>
-      ) : (
-        <p>No major missing skills identified.</p>
-      )}
-    </div>
-
-    {/* SUGGESTIONS */}
-    <div className="analysis-card suggestions">
-      <h3>AI Recommendations</h3>
-
-      <ol>
-        {analysis.suggestions.map((suggestion, index) => (
-          <li key={index}>{suggestion}</li>
-        ))}
-      </ol>
-    </div>
-
-    {/* JOB ROLES */}
-    <div className="analysis-card job-roles">
-      <h3>Suitable Job Roles</h3>
-
-      <div className="role-tags">
-    {analysis.jobRoles.map((role, index) => (
-        <span key={index} className="role-tag">
-            {role}
-        </span>
-    ))}
-</div>
-
-        </div>
-    </div>
-  )}
-  </div>
-      </main>
-    </div>
-)
-
-}
-
-
-export default App
+          <AnalysisHistory refreshTrigger={historyRefresh} />
+          </div>
+          </main>
+          </div>
+          )
+        }
+        export default App

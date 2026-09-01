@@ -1,0 +1,105 @@
+import { useEffect, useState } from "react";
+import AnalysisResult from "./AnalysisResult";
+
+function AnalysisHistory({ refreshTrigger }) {
+  const [history, setHistory] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedAnalysis, setSelectedAnalysis] = useState(null);
+
+  useEffect(() => {
+    fetch("http://localhost:8080/api/resumes/analysis/history")
+      .then((response) => response.json())
+      .then((data) => {
+        setHistory(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching analysis history:", error);
+        setLoading(false);
+      });
+  }, [refreshTrigger]);
+
+  const handleDelete = async (id) => {
+    try {
+        const response = await fetch(
+            `http://localhost:8080/api/resumes/analysis/${id}`,
+            {
+                method: "DELETE",
+            }
+        );
+
+        if (response.ok) {
+            setHistory(history.filter((analysis) => analysis.id !== id));
+        } else {
+            console.error("Failed to delete analysis");
+        }
+    } catch (error) {
+        console.error("Error deleting analysis:", error);
+    }
+};
+
+  if (loading) {
+    return <p>Loading analysis history...</p>;
+  }
+
+  return (
+    <div className="analysis-history">
+      <h2>Analysis History</h2>
+
+      {history.length === 0 ? (
+        <p>No previous analyses found.</p>
+      ) : (
+        history.map((analysis) => (
+          <div className="history-card" key={analysis.id}>
+            <h3>Analysis #{analysis.id}</h3>
+
+            <p>
+              <strong>ATS Score:</strong>{" "}
+              {analysis.overallScore}/10
+            </p>
+
+            <p>
+              <strong>Resume:</strong>{" "}
+              {analysis.resume?.name || "Uploaded Resume"}
+            </p>
+            
+            <button
+  onClick={() => {
+    const parsedAnalysis = {
+      ...analysis,
+      strengths: JSON.parse(analysis.strengths || "[]"),
+      weaknesses: JSON.parse(analysis.weaknesses || "[]"),
+      missingSkills: JSON.parse(analysis.missingSkills || "[]"),
+      suggestions: JSON.parse(analysis.suggestions || "[]"),
+      jobRoles: JSON.parse(analysis.jobRoles || "[]")
+    };
+
+    setSelectedAnalysis(parsedAnalysis);
+  }}
+>
+  View Analysis
+</button>
+
+<button onClick={() => handleDelete(analysis.id)}>
+    Delete Analysis
+</button>
+            
+
+
+                {selectedAnalysis && (
+  <div className="selected-analysis">
+    <button onClick={() => setSelectedAnalysis(null)}>
+      Close Analysis
+    </button>
+
+    <AnalysisResult analysis={selectedAnalysis} />
+  </div>
+)}
+          </div>
+        ))
+      )}
+    </div>
+  );
+}
+
+export default AnalysisHistory;

@@ -11,6 +11,8 @@ import com.seshadri.airesumeanalyzer.entity.ResumeAnalysis;
 import com.seshadri.airesumeanalyzer.repository.ResumeAnalysisRepository;
 import com.seshadri.airesumeanalyzer.repository.ResumeRepository;
 import org.springframework.stereotype.Service;
+import java.util.List;
+
 
 @Service
 public class ResumeAnalysisService {
@@ -86,4 +88,12 @@ public ResumeAnalysis createAndSaveAnalysis(
     // 4. Save analysis
     return resumeAnalysisRepository.save(analysis);
 }
+public List<ResumeAnalysis> getAllAnalyses() {
+    return resumeAnalysisRepository.findAll();
+}
+
+public void deleteAnalysis(Long id) {
+    resumeAnalysisRepository.deleteById(id);
+}
+
 }
