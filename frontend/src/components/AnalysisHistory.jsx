@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
 import AnalysisResult from "./AnalysisResult";
-
-function AnalysisHistory({ refreshTrigger }) {
+function AnalysisHistory({ refreshTrigger, token }) {
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedAnalysis, setSelectedAnalysis] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/resumes/analysis/history")
+    fetch("http://localhost:8080/api/resumes/analysis/history", {
+    headers: {
+        Authorization: `Bearer ${token}`
+    }
+})
       .then((response) => response.json())
       .then((data) => {
         setHistory(data);
@@ -17,16 +20,19 @@ function AnalysisHistory({ refreshTrigger }) {
         console.error("Error fetching analysis history:", error);
         setLoading(false);
       });
-  }, [refreshTrigger]);
+  }, [refreshTrigger,token]);
 
   const handleDelete = async (id) => {
     try {
       const response = await fetch(
-        `http://localhost:8080/api/resumes/analysis/${id}`,
-        {
-          method: "DELETE",
+    `http://localhost:8080/api/resumes/analysis/${id}`,
+    {
+        method: "DELETE",
+        headers: {
+            Authorization: `Bearer ${token}`
         }
-      );
+    }
+);
 
       if (response.ok) {
         setHistory((prevHistory) =>
