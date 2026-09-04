@@ -30,7 +30,7 @@ try {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    name: 'Uploaded Resume',
+                    name: file.name,
                     email: 'upload@example.com',
                     phone: '0000000000'
                 })

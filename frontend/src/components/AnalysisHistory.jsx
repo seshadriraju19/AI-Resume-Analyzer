@@ -21,22 +21,41 @@ function AnalysisHistory({ refreshTrigger }) {
 
   const handleDelete = async (id) => {
     try {
-        const response = await fetch(
-            `http://localhost:8080/api/resumes/analysis/${id}`,
-            {
-                method: "DELETE",
-            }
+      const response = await fetch(
+        `http://localhost:8080/api/resumes/analysis/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (response.ok) {
+        setHistory((prevHistory) =>
+          prevHistory.filter((analysis) => analysis.id !== id)
         );
 
-        if (response.ok) {
-            setHistory(history.filter((analysis) => analysis.id !== id));
-        } else {
-            console.error("Failed to delete analysis");
+        if (selectedAnalysis?.id === id) {
+          setSelectedAnalysis(null);
         }
+      } else {
+        console.error("Failed to delete analysis");
+      }
     } catch (error) {
-        console.error("Error deleting analysis:", error);
+      console.error("Error deleting analysis:", error);
     }
-};
+  };
+
+  const handleViewAnalysis = (analysis) => {
+    const parsedAnalysis = {
+      ...analysis,
+      strengths: JSON.parse(analysis.strengths || "[]"),
+      weaknesses: JSON.parse(analysis.weaknesses || "[]"),
+      missingSkills: JSON.parse(analysis.missingSkills || "[]"),
+      suggestions: JSON.parse(analysis.suggestions || "[]"),
+      jobRoles: JSON.parse(analysis.jobRoles || "[]"),
+    };
+
+    setSelectedAnalysis(parsedAnalysis);
+  };
 
   if (loading) {
     return <p>Loading analysis history...</p>;
@@ -62,39 +81,25 @@ function AnalysisHistory({ refreshTrigger }) {
               <strong>Resume:</strong>{" "}
               {analysis.resume?.name || "Uploaded Resume"}
             </p>
-            
-            <button
-  onClick={() => {
-    const parsedAnalysis = {
-      ...analysis,
-      strengths: JSON.parse(analysis.strengths || "[]"),
-      weaknesses: JSON.parse(analysis.weaknesses || "[]"),
-      missingSkills: JSON.parse(analysis.missingSkills || "[]"),
-      suggestions: JSON.parse(analysis.suggestions || "[]"),
-      jobRoles: JSON.parse(analysis.jobRoles || "[]")
-    };
 
-    setSelectedAnalysis(parsedAnalysis);
-  }}
->
-  View Analysis
-</button>
+            <button onClick={() => handleViewAnalysis(analysis)}>
+              View Analysis
+            </button>
 
-<button onClick={() => handleDelete(analysis.id)}>
-    Delete Analysis
-</button>
-            
+            <button onClick={() => handleDelete(analysis.id)}>
+              Delete Analysis
+            </button>
 
+            {/* Show detailed analysis inside the selected card */}
+            {selectedAnalysis?.id === analysis.id && (
+              <div className="selected-analysis">
+                <button onClick={() => setSelectedAnalysis(null)}>
+                  Close Analysis
+                </button>
 
-                {selectedAnalysis && (
-  <div className="selected-analysis">
-    <button onClick={() => setSelectedAnalysis(null)}>
-      Close Analysis
-    </button>
-
-    <AnalysisResult analysis={selectedAnalysis} />
-  </div>
-)}
+                <AnalysisResult analysis={selectedAnalysis} />
+              </div>
+            )}
           </div>
         ))
       )}
